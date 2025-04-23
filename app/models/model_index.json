@@ -1,0 +1,14 @@
+[
+  {
+    "name": "v1",
+    "endpoint": "/predict",
+    "description": "Comprehensive model with a large list of required features",
+    "required_features": ["bedrooms", "bathrooms", "sqft_living", "sqft_lot", "floors", "waterfront", "view", "condition", "grade", "sqft_above", "sqft_basement", "yr_built", "yr_renovated", "zipcode", "lat", "long", "sqft_living15", "sqft_lot15"]
+  },
+  {
+    "name": "v1-basic",
+    "endpoint": "/predict-basic",
+    "description": "Basic model with fewer required features",
+    "required_features": ["bedrooms", "bathrooms", "sqft_living", "sqft_lot", "floors", "sqft_above", "sqft_basement", "zipcode"]
+  }
+]
