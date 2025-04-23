@@ -1,4 +1,2 @@
-*.pkl
 *.pyc
-model/data/*
 .idea/*
