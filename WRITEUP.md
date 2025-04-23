@@ -6,6 +6,8 @@
 - [API](#api)
 - [Docker Deployment](#docker-deployment)
 - [Testing](#testing)
+- [Scaling Up](#scaling-up)
+- [Potential Enhancements](#potential-enhancements)
 
 ## Project Overview
 The main learning from this project was experience in building an API for an AI model using python.
@@ -49,7 +51,7 @@ I broke out the prediction code to a separate python file to give the app some b
 prediction code is responsible for loading the given model, merging the server-side demographic data, and sending the
 merged data to the model. The returned prediction is then packaged into a response class and returned to the API.
 
-The API index dynamically returns a JSON object that lists all of the available endpoints. The `/models` endpoint 
+The API index dynamically returns a JSON object that lists all the available endpoints. The `/models` endpoint 
 returns a list of the available models, and the `/predict` and `/predict-basic` endpoints are for submitting a request.
 There is some error handling in the prediction endpoints for ensuring the request has the required columns by way of 
 Pydantic deserialization and validation. There is also API-level exception catching for unexpected issues.
@@ -58,7 +60,7 @@ Pydantic deserialization and validation. There is also API-level exception catch
 The next step of the project was to package and deploy the app as a docker container, primarily for local deployment and
 testing. I ended up writing a few helper scripts for this portion:
 - `Dockerfile` was used to define the container. The file is split into multiple phases for efficiency of redeployment
-  which really helped during development by cutting the redeploy time down to about 20 seconds from closer to 45,
+  which really helped during development by cutting the redeployment time down to about 20 seconds from closer to 45,
   allowing faster iteration
 - `docker-compose` is a configuration file used to pass environment variables into the Flask app
 - `build-docker.ps1` is a shortcut script for building the docker container using standard parameters
@@ -81,10 +83,10 @@ usage, which takes care of that scaling axis.
 
 By deploying in a cluster, new models can be rolled out by cycling nodes from the older container to the newer one. This
 is supported by the `/models` endpoint that returns the available models - the user can request which models are 
-available, and request to use one of them. When a new version of the contianer is deployed with updated or new models, 
+available, and request to use one of them. When a new version of the container is deployed with updated or new models, 
 the model manifest is updated and the user would see the new options. As nodes are cycled out of the cluster and new nodes
 take their place, the overall cluster would be updated to support the new models. The details of this deployment would 
-need to account for ensuring that users of one node type are segregated to that subcluster to avoid a case where a user 
+need to account for ensuring that users of one node type are segregated to that sub cluster to avoid a case where a user 
 sees the new v2 model as available, but their prediction request goes to an older node that doesn't support v2 yet.
 
 ## Potential Enhancements
